@@ -2,6 +2,8 @@ namespace TotoGUI
 {
     public partial class FrmToto : Form
     {
+        const string valid = "12X";
+
         public FrmToto()
         {
             InitializeComponent();
@@ -14,12 +16,10 @@ namespace TotoGUI
             chbKarSzamHiba.Text = $"Nem megfelelõ karakterszám({txtEredmenyek.Text.Length})";
 
             string invalid = string.Empty;
-            foreach (char c in txtEredmenyek.Text)
-                if (!"12X".Contains(c)) invalid += $"{c};";
-
-            if (invalid.Length != 0) invalid = invalid[..^1];
+            foreach (char c in txtEredmenyek.Text) if (!valid.Contains(c)) invalid += $"{c};";
             chbHelytelenKarHiba.Checked = invalid.Length != 0;
-            chbHelytelenKarHiba.Text = $"Helytelen karakter az eredményekben ({invalid})";
+            chbHelytelenKarHiba.Text = $"Helytelen karakter az eredményekben " +
+                $"({(invalid.Length == 0 ? string.Empty : invalid[..^1])})";
 
             btnMentes.Enabled = !chbKarSzamHiba.Checked && !chbHelytelenKarHiba.Checked;
         }
